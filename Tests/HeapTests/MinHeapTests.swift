@@ -1,5 +1,5 @@
 import XCTest
-@testable import BinaryHeap
+@testable import Heaps
 
 final class BinaryHeapTests: XCTestCase {
    let heap = MinHeap<Int>(using: <)

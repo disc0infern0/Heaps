@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import BinaryHeap
+@testable import Heaps
 
 class MinBucketTests: XCTestCase {
    var minBucket = MinBucket<Int>()
