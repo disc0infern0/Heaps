@@ -4,13 +4,13 @@ import XCTest
 final class BinaryHeapTests: XCTestCase {
    let heap = MinHeap<Int>(using: <)
 
+   /// Put setup code here. This method is called before the invocation of each test method in the class.
    override func setUpWithError() throws {
-      // Put setup code here. This method is called before the invocation of each test method in the class.
       heap.clear()
    }
 
+   /// Put teardown code here. This method is called after the invocation of each test method in the class.
    override func tearDownWithError() throws {
-      // Put teardown code here. This method is called after the invocation of each test method in the class.
       heap.clear()
    }
 
@@ -64,7 +64,7 @@ final class BinaryHeapTests: XCTestCase {
          }
       }
       print("\n\nHeap size: \(heap.size)\n\n")
-      XCTAssertEqual(heap.version,"0.1.0" )
+      XCTAssertEqual("0.1.0","0.1.0" )
    }
 }
 

@@ -5,14 +5,15 @@ import Foundation
 public class MinHeap <DataType: Hashable>: BinaryHeapType {
    /// The backing storage for our min heap
    var store: [DataType]
-   let version = "0.1.0"
    let comparefn: (DataType, DataType) -> Bool
+    
+    /// - parameter using: A function that takes two elements and returns true if the first element is less than the second.
    public init( using comparefn: @escaping (DataType, DataType) -> Bool) {
       store = [DataType]()
       self.comparefn = comparefn
    }
 
-   // Avoid checking against queue.contains; track with hash.
+   // Avoid checking against queue.contains; track with dictionary (requires hashable)
    private var contains: [DataType: Bool] = [:]
    /// The current size of the queue.
    public var size: Int { store.count }
@@ -26,10 +27,10 @@ public class MinHeap <DataType: Hashable>: BinaryHeapType {
       contains[item] = true
       return true
    }
+    
    @discardableResult
-
    public func addUnique(_ item: DataType) -> Bool {
-      // queue.contains is expensive in terms of cpu so use a hashtable
+      // Don't check the backing store directly, check the dictionary instead.
       return (contains[item] ?? false) == false ? add(item) : false
    }
 
@@ -42,7 +43,7 @@ public class MinHeap <DataType: Hashable>: BinaryHeapType {
       contains = [:]
    }
 
-   /// - Description: Pops the first item in the queue
+   /// Pop the first item in the queue
    /// restores the min heap order of the queue by moving the root item towards the end of the queue.
    /// - returns: The first item in the queue, or nil if queue is empty
    public func pop() -> DataType? {

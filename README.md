@@ -10,17 +10,39 @@ A priority queue is defined thus:
 "Each element in a priority queue has an associated priority. In a priority queue, elements with high priority are served before elements with low priority. In some implementations, if two elements have the same priority, they are served in the same order in which they were enqueued. In other implementations, the order of elements with the same priority is undefined."
 
 
-Implementation of two heaps; 
-##a (binary) min heap
-##a min bucket heap
+**This package contains an implementation of two heaps:-**      
+- A (binary) min heap   
+- A min bucket heap
 
-#MinHeap<DataType: Equatable>
-As per the MinHeapType protocol, this class exposes the following methods: 
-- `pop()` : Return the lowest item added.
+#Binary MinHeap   
+
+See [https://en.wikipedia.org/wiki/Binary_heap](this wikipedia entry) for details of a binary heap.
+This class exposes the following methods: 
+- `pop()` Return the lowest item and remove it from the heap.
 - `add(_:)` Add an item to the heap
-- `addUnique(_:)` adds an item if it is not already in the heap.   
+- `addUnique(_:)` Adds an item if it is not already in the heap.   
+- `clear()`: Remove all items in the heap.
+- `peek()`: Retrieve the first item in the heap (i.e. the lowest value)
 
-A comparison function needs to be supplied to the init of the class, that will operate in the same way that the less than operator `<` does. i.e. it takes two operands, and should return true if the left hand side is less than the right hand side.
+##Usage:
+**`MinHeap<DataType: Equatable, Hashable>(using: (DataType,DataType) -> Bool)**
+   
+Example of an interger min heap:
+```swift
+MinHeap<Int>(using: <)
+```
 
-#MinBucket
+The `using` parameter is a function/closure that takes two elements and returns true if the first element is less than the second.   
+i.e. it should be equivalen to the `<` operator.
 
+#Binary MinBucket
+
+It must be useful for something, but as at time of writing, I can't recall quite what. Answers on a postcard please.   
+
+MinBucket uses a dictionary to store an array of `<DataType>` values, keyed by an integer value.
+This class exposes the following methods: 
+- `pop()` Find the array with the smallest key value,  then remove the last item in the array and return it.
+- `add(_ : DataType, value: Int)` Add an item to the heap with a key of `value`
+- `addUnique(_:, value: Int)` Add an item to the heap with a key of `value` if it is not already in the heap.   
+- `clear()`: Remove all items in the heap.
+- `peek()`: Get the smallest key value from the dictionary, then retrieve the first item in the array 

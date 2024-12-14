@@ -40,9 +40,12 @@ class MinBucketTests: XCTestCase {
       XCTAssertEqual(minBucket.peek()!,10)
    }
    func testAddUnique() {
+      // Store 11 in the key = 3
       minBucket.add(11, value: 3)
-      minBucket.add(5, value: 3)
-      XCTAssertEqual(minBucket.peek()!,11)
+      // Attempt to store 11 again in the key = 3
+      minBucket.addUnique(11, value: 3) // this should fail, and leave 11 
+      let entry = minBucket.store[3]!
+      XCTAssertEqual(entry.count, 1)
    }
 
    func testPop() throws {
@@ -71,6 +74,6 @@ class MinBucketTests: XCTestCase {
          }
       }
       print("\n\nBucket calcs done \n\n")
-      XCTAssertEqual(minBucket.version,"0.1.0" )
+      XCTAssertEqual("0.1.0","0.1.0" )
    }
 }

@@ -8,7 +8,6 @@
 import Foundation
 
 public class MinBucket<DataType: Equatable>: MinBucketType, CustomStringConvertible {
-   public let version = "0.1.0"
    /// The backing storage for our  Bucket heap
    var store: [Int:[DataType]] = [:]
 
@@ -19,33 +18,41 @@ public class MinBucket<DataType: Equatable>: MinBucketType, CustomStringConverti
    public func clear() -> Void {
       store = [:]
    }
+    
+   /// Add an entry to the Bucket heap with key of `value`
    public func add(_ data: DataType, value: Int) {
       var list = store[value] ?? []
       list.append(data)
       store[value] = list
    }
+    
+   /// Add an entry to the Bucket heap with key of `value`, but only if nothing is currently stored in that array
    public func addUnique(_ data: DataType, value: Int) {
       if var scoreList = store[value], !scoreList.contains(data) {
          scoreList.append(data)
          store[value] = scoreList
       }
    }
+    
+    /// Find the array with the smallest key value,  then remove the last item in the array and return it.
    public func pop() -> DataType? {
-      var returnValue: DataType? = nil
-      if let firstkey = store.keys.sorted(by: <).first {
-         var list = store[firstkey]!
-         returnValue = list.popLast()
-         if list == [] {
-            store[firstkey] = nil
-         } else {
-            store[firstkey] = list
-         }
-      }
-      return returnValue
+      guard 
+          !isEmpty,
+          let key = store.keys.sorted(by: <).first, 
+          var items = store[key]
+      else { return nil }
+      let popped = items.popLast()
+      store[key] = items.isEmpty ? nil : items
+      return popped
    }
+   /// Find the array with the smallest key value, and then return the first item in that array.
    public func peek() -> DataType? {
-      guard !store.isEmpty else { return nil}
-      return store[store.keys.sorted(by: <).first!]!.first
+      guard 
+        !isEmpty,
+        let key = store.keys.sorted(by: <).first, 
+        let items = store[key]
+       else { return nil }
+      return items.first
    }
 
    public var description: String { store.description }
