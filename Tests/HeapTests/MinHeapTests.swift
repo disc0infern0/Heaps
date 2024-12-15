@@ -2,7 +2,7 @@ import XCTest
 @testable import Heaps
 
 final class BinaryHeapTests: XCTestCase {
-   let heap = MinHeap<Int>(using: <)
+   let heap = MinHeap<Int>() // (using: <)
 
    /// Put setup code here. This method is called before the invocation of each test method in the class.
    override func setUpWithError() throws {
@@ -48,9 +48,9 @@ final class BinaryHeapTests: XCTestCase {
       XCTAssertEqual(string,"1:3:12:14:")
    }
 
-   func testCompare() throws {
-      XCTAssertEqual(heap.comparefn(1,2), true )
-   }
+//   func testCompare() throws {
+//      XCTAssertEqual(heap.comparefn(1,2), true )
+//   }
    // 17.3 - 17.468 seconds with size == queue.count
    func qtestZPerformance() throws {
       heap.add(0)
