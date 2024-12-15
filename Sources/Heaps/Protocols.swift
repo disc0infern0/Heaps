@@ -21,8 +21,8 @@ protocol MinBucketType: BaseHeap {
 }
 
 //Used for MinHeap
-protocol BinaryHeapType: BaseHeap where DataType: Hashable{
+protocol BinaryHeapType: BaseHeap where DataType: Hashable & Comparable {
     var store: [DataType] {get set}
     func add(_: DataType) -> Bool
-    var comparefn: (DataType, DataType) -> Bool {get}
+//    var comparefn: (DataType, DataType) -> Bool {get}
 }

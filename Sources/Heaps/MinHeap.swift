@@ -2,15 +2,15 @@ import Foundation
 
 ///A BinaryHeapType implementation based on a Heap data structure.
 // Hashable is required for the 'contains' dictionary
-public class MinHeap <DataType: Hashable>: BinaryHeapType {
+public class MinHeap <DataType: Hashable & Comparable>: BinaryHeapType {
    /// The backing storage for our min heap
    var store: [DataType]
-   let comparefn: (DataType, DataType) -> Bool
+//   let comparefn: (DataType, DataType) -> Bool
     
     /// - parameter using: A function that takes two elements and returns true if the first element is less than the second.
-   public init( using comparefn: @escaping (DataType, DataType) -> Bool) {
+    public init() { // using comparefn: @escaping (DataType, DataType) -> Bool) {
       store = [DataType]()
-      self.comparefn = comparefn
+//      self.comparefn = comparefn
    }
 
    // Avoid checking against queue.contains; track with dictionary (requires hashable)
@@ -49,23 +49,21 @@ public class MinHeap <DataType: Hashable>: BinaryHeapType {
    public func pop() -> DataType? {
       // Whilst we return the first item, the only thing that we actually
       // remove is the last item, (which may be the first)
-      guard store.first != nil else { return nil }
-      let firstItem = store.first
-      if let lastItem = store.popLast() {
-         if firstItem != lastItem {
-            store[0] = lastItem
-            heapifyDown()
-         }
-      }
-      contains[firstItem!] = false
-      return firstItem
+       
+       guard let firstItem = store.first, let lastItem = store.popLast() else { return nil }
+       if firstItem != lastItem {
+           store[0] = lastItem //overwrite the first item in the heap with (what was) the last
+           heapifyDown() //restore heap ordering
+       }
+       contains[firstItem] = false
+       return firstItem
    }
 
    /// Restores the min heap order of the queue by moving an item towards the beginning of the queue.
    private func heapifyUp() {
       var child = store.endIndex - 1
       var parent = child.parent
-      while child != store.startIndex, comparefn(store[child], store[parent]) {
+       while child != store.startIndex, store[child] < store[parent]  { // comparefn(store[child], store[parent]) {
          swap(parent, with: child)
          child = parent
          parent = child.parent
@@ -80,10 +78,12 @@ public class MinHeap <DataType: Hashable>: BinaryHeapType {
          var minChild = leftChild
          let rightChild = parent.rightChild
          if rightChild < store.endIndex,
-            comparefn(store[rightChild], store[leftChild] ) {
+//            comparefn(store[rightChild], store[leftChild] ) {
+            store[rightChild] < store[leftChild]  {
             minChild = rightChild
          }
-         if comparefn(store[minChild],store[parent]) {
+//         if comparefn(store[minChild],store[parent]) {
+         if store[minChild] < store[parent] {
             self.swap(parent, with: minChild)
             parent = minChild
          } else {
